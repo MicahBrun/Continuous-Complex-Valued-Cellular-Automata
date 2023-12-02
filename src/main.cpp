@@ -1,14 +1,57 @@
-#include <iostream>
-#include <Eigen/Dense>
+#include "../include/Grid.hpp"
 
-using Eigen::MatrixXd;
- 
+#include <iostream>
+#include <cmath>
+
+#include <Eigen/Dense>
+#include <SFML/Graphics.hpp>
+
 int main()
 {
-  Eigen::MatrixXcd m(2,2);
-  m(0,0) = std::complex<double>(1, 1);
-  m(1,0) = std::complex<double>(0, 1);
-  m(0,1) = std::complex<double>(-1, 10.1);
-  m(1,1) = m(1,0) + m(0,1);
-  std::cout << m << std::endl;
+    Eigen::MatrixXcd matrix(500, 500);
+    double scale {200.0};
+    for (int i = 0; i < matrix.rows(); i++)
+    {
+      for (int j = 0; j < matrix.cols(); j++)
+      {
+        double x {(i - 250.0) / scale};
+        double y {(j - 250.0) / scale};
+
+        std::complex<double>z(x, y);
+        double lambda { 0.8 };
+        double kappa { 15'000.0 };
+        auto w { 3.0 * (z) * std::exp(-std::norm(z)/(lambda * lambda)) }; //2.0 * z * std::exp(-std::norm(z / lambda)) / 100.0 };
+        matrix(i, j) = w;
+      }
+    }
+
+    const auto factor {1.01 * std::complex(1.0, 0.01)};
+    // Initialize SFML window
+    sf::RenderWindow window(sf::VideoMode(matrix.cols(), matrix.rows()), "SFML Matrix Display");
+
+    Grid grid {};
+    grid.load(sf::Vector2f{1.0, 1.0}, 500, 500);
+    // Main loop
+    while (window.isOpen()) {
+        // Process events
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                window.close();
+            }
+        }
+
+        // Clear the window
+        window.clear();
+
+        matrix *= factor;
+        grid.setValues(matrix);
+        window.draw(grid);
+
+        // Display the window
+        window.display();
+        sf::sleep(sf::milliseconds(500));
+    }
+
+    return 0;
 }

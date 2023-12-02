@@ -5,13 +5,23 @@ project(ContinuousComplexValuedCellularAutomata
 
 set(CMAKE_CXX_STANDARD 17)  # or 14, 17, etc., depending on your requirements
 
-# Header files
-include_directories(include)
+set(EXEC_SRC
+    src/main.cpp
+    src/grid.cpp
+    src/ComplexToColor.cpp
+    )
+
+set(EXEC_INCLUDE
+    include/Grid.hpp
+    include/ComplexToColor.hpp)
 
 # External dependencies (Eigen)
 include_directories(external/Eigen)
-
-include_directories(src)
+add_subdirectory(external/SFML)
 
 # Add executable
-add_executable(CCVCA src/main.cpp)
+add_executable(${PROJECT_NAME} ${EXEC_SRC} ${EXEC_INCLUDE} )
+
+
+target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics)
+
