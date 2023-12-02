@@ -6,9 +6,12 @@
 #include <Eigen/Dense>
 #include <SFML/Graphics.hpp>
 
+#include <opencv2/core.hpp>
+
 int main()
 {
-    Eigen::MatrixXcd matrix(500, 500);
+    Eigen::Matrix2cd matrix(500, 500);
+
     double scale {50.0};
     for (int i = 0; i < matrix.rows(); i++)
     {

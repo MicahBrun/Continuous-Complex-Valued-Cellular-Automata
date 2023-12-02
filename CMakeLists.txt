@@ -15,13 +15,16 @@ set(EXEC_INCLUDE
     include/Grid.hpp
     include/ComplexToColor.hpp)
 
-# External dependencies (Eigen)
+find_package(OpenCV REQUIRED)
+include_directories(${OpenCV_INCLUDE_DIRS})
+
+# External dependencies
 include_directories(external/Eigen)
-add_subdirectory(external/SFML)
+
+add_subdirectory(external)
 
 # Add executable
 add_executable(${PROJECT_NAME} ${EXEC_SRC} ${EXEC_INCLUDE} )
 
-
-target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics)
+target_link_libraries(${PROJECT_NAME} PRIVATE sfml-graphics ${OpenCV_LIBS})
 
