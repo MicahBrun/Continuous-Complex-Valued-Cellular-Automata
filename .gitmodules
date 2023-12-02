@@ -4,3 +4,9 @@
 [submodule "external/sfml"]
 	path = external/sfml
 	url = https://github.com/SFML/SFML.git
+[submodule "opencv"]
+	path = opencv
+	url = https://github.com/opencv/opencv.git
+[submodule "external/opencv"]
+	path = external/opencv
+	url = https://github.com/opencv/opencv.git
