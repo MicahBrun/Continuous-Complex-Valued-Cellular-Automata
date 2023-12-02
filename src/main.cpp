@@ -9,7 +9,7 @@
 int main()
 {
     Eigen::MatrixXcd matrix(500, 500);
-    double scale {200.0};
+    double scale {50.0};
     for (int i = 0; i < matrix.rows(); i++)
     {
       for (int j = 0; j < matrix.cols(); j++)
@@ -20,12 +20,12 @@ int main()
         std::complex<double>z(x, y);
         double lambda { 0.8 };
         double kappa { 15'000.0 };
-        auto w { 3.0 * (z) * std::exp(-std::norm(z)/(lambda * lambda)) }; //2.0 * z * std::exp(-std::norm(z / lambda)) / 100.0 };
+        auto w { z*z/std::abs(z) /* std::exp(-std::norm(z)/(lambda * lambda))*/ }; //2.0 * z * std::exp(-std::norm(z / lambda)) / 100.0 };
         matrix(i, j) = w;
       }
     }
 
-    const auto factor {1.01 * std::complex(1.0, 0.01)};
+    const auto factor {1.01 * std::complex(1.0, 0.05)};
     // Initialize SFML window
     sf::RenderWindow window(sf::VideoMode(matrix.cols(), matrix.rows()), "SFML Matrix Display");
 
