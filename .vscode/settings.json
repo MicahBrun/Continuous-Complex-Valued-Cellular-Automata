@@ -69,7 +69,11 @@
         "variant": "cpp",
         "vector": "cpp",
         "algorithm": "cpp",
-        "hash_map": "cpp"
+        "hash_map": "cpp",
+        "cinttypes": "cpp",
+        "stack": "cpp",
+        "typeindex": "cpp",
+        "dense": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }

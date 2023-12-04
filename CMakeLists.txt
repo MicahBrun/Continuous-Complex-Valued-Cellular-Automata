@@ -9,11 +9,16 @@ set(EXEC_SRC
     src/main.cpp
     src/grid.cpp
     src/ComplexToColor.cpp
+    src/ComplexMat.cpp
+    src/ComplexMatToColor.cpp
     )
 
 set(EXEC_INCLUDE
     include/Grid.hpp
-    include/ComplexToColor.hpp)
+    include/ComplexToColor.hpp
+    include/ComplexMat.hpp
+    include/ComplexMatToColor.hpp
+    )
 
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})

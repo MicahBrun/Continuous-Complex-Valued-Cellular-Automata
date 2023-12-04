@@ -1,11 +1,15 @@
 #include "../include/Grid.hpp"
 #include "../include/ComplexToColor.hpp"
+#include "../include/ComplexMatToColor.hpp"
+#include "../include/ComplexMat.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <Eigen/Dense>
+#include <opencv2/core.hpp>
 
 #include <cmath>
 #include <vector>
+#include <iostream>
 
 bool Grid::load(sf::Vector2f tileSize, unsigned int width, unsigned int height)
 {
@@ -33,23 +37,25 @@ bool Grid::load(sf::Vector2f tileSize, unsigned int width, unsigned int height)
     return true;
 }
 
-void Grid::setValues(const Eigen::MatrixXcd& values)
+void Grid::setValues(cv::Mat& values)
 {
-    auto plain = values.data();
+    auto rgb {ComplexMatToColor::complexMatToRgb(values)};
+    cv::Mat channels[3];
+    cv::split(rgb, channels);
+
     // populate the vertex array, with one quad per tile
     for (unsigned int i = 0; i < m_width; ++i)
     for (unsigned int j = 0; j < m_height; ++j)
     {
         int x = i + j * m_width;
-        ComplexToColor::RGB rgb = ComplexToColor::complexToRGB(plain[x]);
         sf::Vertex* quad = &m_vertices[(x) * 4];
 
         for (int corner = 0; corner < 4; ++corner)
         {
             sf::Vertex& vertex = quad[corner];
-            vertex.color.r = rgb.r;
-            vertex.color.g = rgb.g;
-            vertex.color.b = rgb.b;
+            vertex.color.r = channels[0].at<float>(i, j) * 256.0;
+            vertex.color.g = channels[1].at<float>(i, j) * 256.0;
+            vertex.color.b = channels[2].at<float>(i, j) * 256.0;
         }
     }
 }
