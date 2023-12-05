@@ -1,7 +1,5 @@
 #include "../include/Grid.hpp"
-#include "../include/ComplexToColor.hpp"
 #include "../include/ComplexMatToColor.hpp"
-#include "../include/ComplexMat.hpp"
 
 #include <SFML/Graphics.hpp>
 #include <Eigen/Dense>
@@ -37,9 +35,9 @@ bool Grid::load(sf::Vector2f tileSize, unsigned int width, unsigned int height)
     return true;
 }
 
-void Grid::setValues(cv::Mat& values)
+void Grid::setValues(const cv::Mat& values)
 {
-    auto rgb {ComplexMatToColor::complexMatToRgb(values)};
+    auto rgb {Color::complexMatToRgb(values)};
     cv::Mat channels[3];
     cv::split(rgb, channels);
 

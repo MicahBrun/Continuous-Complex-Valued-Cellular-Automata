@@ -8,16 +8,16 @@ set(CMAKE_CXX_STANDARD 17)  # or 14, 17, etc., depending on your requirements
 set(EXEC_SRC
     src/main.cpp
     src/grid.cpp
-    src/ComplexToColor.cpp
-    src/ComplexMat.cpp
     src/ComplexMatToColor.cpp
+    src/Transforms.cpp
+    src/SpaceState.cpp
     )
 
 set(EXEC_INCLUDE
     include/Grid.hpp
-    include/ComplexToColor.hpp
-    include/ComplexMat.hpp
     include/ComplexMatToColor.hpp
+    include/Transforms.hpp
+    include/SpaceState.hpp
     )
 
 find_package(OpenCV REQUIRED)

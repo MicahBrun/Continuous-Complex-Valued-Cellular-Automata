@@ -2,7 +2,7 @@
 
 #include <opencv2/core.hpp>
 
-namespace ComplexMatToColor
+namespace Color
 {
-    cv::Mat complexMatToRgb(cv::Mat& mat);
+    cv::Mat complexMatToRgb(const cv::Mat& mat);
 }

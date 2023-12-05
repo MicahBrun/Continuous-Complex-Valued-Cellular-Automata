@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../include/ComplexMat.hpp"
-
 #include <SFML/Graphics.hpp>
 #include <Eigen/Dense>
 #include <opencv2/core.hpp>
@@ -14,7 +12,7 @@ public:
 
     bool load(sf::Vector2f tileSize, unsigned int width, unsigned int height);
 
-    void setValues(cv::Mat& values);
+    void setValues(const cv::Mat& values);
 
 private:
 

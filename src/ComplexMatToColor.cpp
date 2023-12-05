@@ -6,9 +6,9 @@
 #include <cmath>
 #include <iostream>
 
-namespace ComplexMatToColor
+namespace Color
 {
-    cv::Mat complexMatToRgb(cv::Mat& mat)
+    cv::Mat complexMatToRgb(const cv::Mat& mat)
     {
         cv::Mat channels[2];
         cv::split(mat, channels);
@@ -19,10 +19,10 @@ namespace ComplexMatToColor
         cv::Mat phaseMat;
         cv::phase(channels[0], channels[1], phaseMat, true);
 
-        const double k {1.0};
-        const double s {1.15051};
+        const float k {1.0f};
+        const float s {1.15051f};
 
-        auto mapLambda = [&](double &f, const int *p) -> void
+        auto mapLambda = [&](float &f, const int *p) -> void
         {
             if (f < k)
             {
@@ -31,7 +31,7 @@ namespace ComplexMatToColor
             }
             f = (k + std::fmod(f - k, s - k)) / s;
         };
-        magnitudeMat.forEach<double>(mapLambda);
+        magnitudeMat.forEach<float>(mapLambda);
 
         cv::Mat hueMat {phaseMat};
 
