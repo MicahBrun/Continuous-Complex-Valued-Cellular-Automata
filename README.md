@@ -14,7 +14,7 @@ $$\psi(t + \Delta t) = \mathrm{exp}(-i \Delta t ~ h *) \psi(t) $$
 In the frequency demain, via the convolution theorem, this becomes:
 $$\tilde{\psi}(t + \Delta t) = \mathrm{exp}(-i \Delta t ~ \tilde{h}) \tilde{\psi}(t) $$
 
-If $h$ is a real valued function, than the operator $h*$ is hermition. This fact means that $\mathrm{exp}(-i \Delta t ~ h *)$ is a unitary operator. This fact means that the total square magnitude (probability density in quantum mechanics) of the space is conserved. This is useful as it ensures a stable evolution of the system.
+If $h$ is a real valued function, than the operator $h*$ is hermition. This fact means that $\mathrm{exp}(-i \Delta t ~ h *)$ is a unitary operator. As a consequence the total square magnitude (probability density in quantum mechanics) of the space is conserved. This is useful as it ensures a stable evolution of the system.
 
 ## Installation
 
