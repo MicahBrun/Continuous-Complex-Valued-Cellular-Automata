@@ -7,7 +7,7 @@ The kernel and initial state are defined within the relevant funtions inside mai
 https://github.com/MicahBrun/ContinuousComplexValuedCellularAutomata/assets/55516590/c8526b67-51bc-4f8e-9663-20c422b3e83e
 
 ## Visualisation
-SFML is used to visualise the system at a certain time. The system is a 2-D grid where each point stores a complex value. In the visualisation, the complex number is converted into a colour. The hue of the colour corresponds to the phase of the complex number, the brighten is proportional to the arctangent of the complex number. 
+SFML is used for the visualisation of the system at a certain time. The system is made up of a 2-D grid where each point stores a complex value. In the visualisation, the complex number is converted into a colour. The hue of the colour corresponds to the phase of the complex number; the brightness is proportional to the arctangent of the magnitude. 
 
 ## Theory
 The system transforms as:
@@ -17,7 +17,7 @@ Where $h*\psi$ represents the convolution of the functions $h$ and $\psi$. $h$ i
 From this we can derive that:
 $$\psi(t + \Delta t) = \mathrm{exp}(-i \Delta t ~ h *) \psi(t) $$
 
-In the frequency domain, via the convolution theorem, this becomes:
+In the frequency domain, making use of the convolution theorem, this becomes:
 $$\tilde{\psi}(t + \Delta t) = \mathrm{exp}(-i \Delta t ~ \tilde{h}) \tilde{\psi}(t) $$
 Where $\tilde{f}$ represents the Fourier transform of a function.
 
