@@ -1,9 +1,11 @@
 #include "../include/Transforms.hpp"
 
 #include <opencv2/core.hpp>
+#include <Eigen/Core>
+#include <opencv2/core.hpp>
+#include <opencv2/core/eigen.hpp>
 
 #include <vector>
-#include <iostream>
 
 namespace Transforms
 {
@@ -78,6 +80,45 @@ namespace Transforms
         cv::Mat mag;
         cv::magnitude(sources[0], sources[1], mag);
         return std::sqrt(cv::sum(mat.mul(mat))[0]);
+    }
+
+    Eigen::MatrixXcf convertToEigenComplex(const cv::Mat& inputMat) 
+    {
+        std::vector<cv::Mat> channels;
+        cv::split(inputMat, channels);
+
+        cv::Mat realPart = channels[0];
+        cv::Mat imagPart = channels[1];
+
+        Eigen::MatrixXf eigenReal;
+        cv::cv2eigen(realPart, eigenReal);
+        Eigen::MatrixXf eigenImag;
+        cv::cv2eigen(imagPart, eigenImag);
+
+        Eigen::MatrixXcf complexMatrix(eigenReal.rows(), eigenReal.cols());
+        complexMatrix.real() = eigenReal;
+        complexMatrix.imag() = eigenImag;
+
+        return complexMatrix;
+    }
+
+    cv::Mat convertToOpenCV2Channel(const Eigen::MatrixXcf& eigenComplex) 
+    {
+        cv::Mat opencvMatrix(eigenComplex.rows(), eigenComplex.cols(), CV_32FC2);
+
+        Eigen::MatrixXf real {eigenComplex.real()};
+        Eigen::MatrixXf imag {eigenComplex.imag()};
+
+        cv::Mat cvReal {};
+        cv::eigen2cv(real, cvReal);
+
+        cv::Mat cvImag {};
+        cv::eigen2cv(imag, cvImag);
+
+        cv::Mat out;
+        cv::merge(std::vector<cv::Mat>{cvReal, cvImag}, out);
+
+        return out;
     }
 }
 

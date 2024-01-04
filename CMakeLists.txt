@@ -18,6 +18,7 @@ set(EXEC_INCLUDE
     include/ComplexMatToColor.hpp
     include/Transforms.hpp
     include/SpaceState.hpp
+    include/main.hpp
     )
 
 find_package(OpenCV REQUIRED)

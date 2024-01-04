@@ -6,10 +6,10 @@
 class SpaceState
 {
     public:
-        SpaceState(const cv::Mat& initialState, const cv::Mat& kernel);
+        SpaceState(const cv::Mat& initialState, const cv::Mat& kernel, float deltaTime);
 
         const cv::Mat& getState() const;
-        void evolve(float deltaTime);
+        void evolve();
     
     private:
         Eigen::MatrixXcf convertToEigenComplex(const cv::Mat& opencvMatrix);

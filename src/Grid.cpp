@@ -9,11 +9,12 @@
 #include <vector>
 #include <iostream>
 
-bool Grid::load(sf::Vector2f tileSize, unsigned int width, unsigned int height)
+bool Grid::load(sf::Vector2f tileSize, unsigned int width, unsigned int height, float saturation)
 {
     // resize the vertex array to fit the level size
     m_vertices.setPrimitiveType(sf::Quads);
     m_vertices.resize(width * height * 4);
+    m_saturation = saturation;
 
     // populate the vertex array, with one quad per tile
     for (unsigned int j = 0; j < height; ++j)
@@ -37,7 +38,7 @@ bool Grid::load(sf::Vector2f tileSize, unsigned int width, unsigned int height)
 
 void Grid::setValues(const cv::Mat& values)
 {
-    auto rgb {Color::complexMatToRgb(values)};
+    auto rgb {Color::complexMatToRgb(values, m_saturation)};
     cv::Mat channels[3];
     cv::split(rgb, channels);
 

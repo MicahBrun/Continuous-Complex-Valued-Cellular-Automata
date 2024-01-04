@@ -4,5 +4,5 @@
 
 namespace Color
 {
-    cv::Mat complexMatToRgb(const cv::Mat& mat);
+    cv::Mat complexMatToRgb(const cv::Mat& mat, float saturation);
 }

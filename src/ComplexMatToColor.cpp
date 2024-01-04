@@ -8,7 +8,7 @@
 
 namespace Color
 {
-    cv::Mat complexMatToRgb(const cv::Mat& mat)
+    cv::Mat complexMatToRgb(const cv::Mat& mat, float saturation)
     {
         cv::Mat channels[2];
         cv::split(mat, channels);
@@ -25,18 +25,12 @@ namespace Color
         auto mapLambda = [&](float &f, const int *p) -> void
         {
             f = std::atan(f * f) * (2.0f / M_PI);
-            // if (f < k)
-            // {
-            //     f = f / s;
-            //     return;
-            // }
-            // f = (k + std::fmod(f - k, s - k)) / s;
         };
         magnitudeMat.forEach<float>(mapLambda);
 
         cv::Mat hueMat {phaseMat};
 
-        cv::Mat satMat {cv::Mat::ones(magnitudeMat.size(), magnitudeMat.type())};
+        cv::Mat satMat {saturation * cv::Mat::ones(magnitudeMat.size(), magnitudeMat.type())};
         cv::Mat hsvMat;
 
         cv::merge(std::vector<cv::Mat> {hueMat, satMat, magnitudeMat}, hsvMat);
