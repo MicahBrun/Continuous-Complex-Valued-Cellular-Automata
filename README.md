@@ -10,7 +10,7 @@ https://github.com/MicahBrun/ContinuousComplexValuedCellularAutomata/assets/5551
 SFML is used for the visualisation of the system at a certain time. The system is made up of a 2-D grid where each point stores a complex value. In the visualisation, the complex number is converted into a colour. The hue of the colour corresponds to the phase of the complex number; the brightness is proportional to the arctangent of the magnitude. 
 
 ## Theory
-The system transforms as:
+The system transforms according to:
 $$i \frac{\partial \psi}{\partial t} = h * \psi$$
 Where $h*\psi$ represents the convolution of the functions $h$ and $\psi$. $h$ is a real valued function while $\psi$ may be complex valued.
 
