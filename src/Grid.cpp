@@ -16,8 +16,8 @@ bool Grid::load(sf::Vector2f tileSize, unsigned int width, unsigned int height)
     m_vertices.resize(width * height * 4);
 
     // populate the vertex array, with one quad per tile
-    for (unsigned int i = 0; i < width; ++i)
     for (unsigned int j = 0; j < height; ++j)
+    for (unsigned int i = 0; i < width; ++i)
     {
         // get a pointer to the current tile's quad
         sf::Vertex* quad = &m_vertices[(i + j * width) * 4];
@@ -42,11 +42,11 @@ void Grid::setValues(const cv::Mat& values)
     cv::split(rgb, channels);
 
     // populate the vertex array, with one quad per tile
-    for (unsigned int i = 0; i < m_width; ++i)
     for (unsigned int j = 0; j < m_height; ++j)
+    for (unsigned int i = 0; i < m_width; ++i)
     {
         int x = i + j * m_width;
-        sf::Vertex* quad = &m_vertices[(x) * 4];
+        sf::Vertex* quad = &m_vertices[x * 4];
 
         for (int corner = 0; corner < 4; ++corner)
         {

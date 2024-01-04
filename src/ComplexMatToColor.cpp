@@ -24,12 +24,13 @@ namespace Color
 
         auto mapLambda = [&](float &f, const int *p) -> void
         {
-            if (f < k)
-            {
-                f = f / s;
-                return;
-            }
-            f = (k + std::fmod(f - k, s - k)) / s;
+            f = std::atan(f * f) * (2.0f / M_PI);
+            // if (f < k)
+            // {
+            //     f = f / s;
+            //     return;
+            // }
+            // f = (k + std::fmod(f - k, s - k)) / s;
         };
         magnitudeMat.forEach<float>(mapLambda);
 

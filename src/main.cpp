@@ -1,6 +1,7 @@
 #include "../include/Grid.hpp"
 #include "../include/ComplexMatToColor.hpp"
 #include "../include/SpaceState.hpp"
+#include "../include/Transforms.hpp"
 
 #include <iostream>
 #include <cmath>
@@ -11,21 +12,22 @@
 
 int main()
 {
-    cv::Mat kernelReal = cv::Mat::zeros(2000, 2000, CV_32F);
-    cv::Mat kernelImag = cv::Mat::zeros(2000, 2000, CV_32F);
+    cv::Mat kernelReal = cv::Mat::zeros(1024, 1024, CV_32F);
+    cv::Mat kernelImag = cv::Mat::zeros(1024, 1024, CV_32F);
 
-    float scale {1.0f};
+    float scale {50.0f};
     for (int i = 0; i < kernelReal.rows; i++)
     {
       for (int j = 0; j < kernelReal.cols; j++)
       {
-        double x {(((i + 1000) % 2000) - 1000) / scale};
-        double y {(((j + 1000) % 2000) - 1000) / scale};
+        double x {(((i + 512) % 1024) - 512) / scale};
+        double y {(((j + 512) % 1024) - 512) / scale};
 
         std::complex<float>z(x, y);
-        float lambda { 10.0f };
-        float kappa { 250.0f };
-        auto w { (std::complex<float>(1, 0.01) + 0.000001f * (z/std::abs(z))) * std::exp(-std::norm(z)/(lambda * lambda)) / kappa}; 
+        float lambda { 8.0f };
+        float kappa { 1.0f };
+        //std::complex<float> w {0};
+        auto w { std::norm(z)/30.0 * std::exp(-std::norm(z)/(lambda * lambda)) / kappa}; 
         kernelReal.at<float>(i, j) = std::real(w);
         kernelImag.at<float>(i, j) = std::imag(w);
       }
@@ -33,30 +35,41 @@ int main()
 
     cv::Mat kernel;
     cv::merge(std::vector<cv::Mat>{kernelReal, kernelImag}, kernel);
+    kernel /= Transforms::getNorm(kernel);
 
     cv::Mat initialStateReal = cv::Mat::zeros(kernel.size(), CV_32F);
     cv::Mat initialStateImag = cv::Mat::zeros(kernel.size(), CV_32F);
-    // Set values to 1 where x-axis is greater than 100
-    for (int i = 0; i < initialStateReal.rows; ++i) {
-        for (int j = 0; j < initialStateReal.cols; ++j) {
-            if (j >= 1000) {
-                std::complex<float> z {std::exp(std::complex<float>(0, i * (M_PI / 500.0f)))};
-                initialStateReal.at<float>(i, j) = z.real();
-                initialStateImag.at<float>(i, j) = z.imag();
-            }
-        }
+
+    cv::Mat lReal = cv::Mat::zeros(kernel.size(), CV_32F);
+    cv::Mat lImag = cv::Mat::zeros(kernel.size(), CV_32F);
+
+    cv::randn(lReal, cv::Scalar(0), cv::Scalar(10));
+    cv::randn(lImag, cv::Scalar(0), cv::Scalar(10));
+
+    initialStateReal = initialStateReal.mul(kernelReal);
+    initialStateImag = initialStateImag.mul(kernelReal);
+
+    for (int i = 0; i < initialStateReal.rows; ++i)
+    for (int j = 0; j < initialStateReal.cols; ++j)
+    {
+        std::complex<float> z {(float)std::sin((i - 512.0)*M_PI/512.0), (float)std::sin((j - 512.0)*M_PI/512.0)};
+        std::complex<float> w {2.0f * z * std::exp(-std::norm(z)) / 1.0f};
+        initialStateReal.at<float>(i, j) = w.real();
+        initialStateImag.at<float>(i, j) = w.imag();
     }
 
+    initialStateReal = initialStateReal;// + 0.1 * lReal;
+    initialStateImag = initialStateImag;// + 0.1 * lImag;
+    
     cv::Mat initialState;
     cv::merge(std::vector<cv::Mat> {initialStateReal, initialStateImag}, initialState);
 
     SpaceState state {initialState, kernel};
-
     // Initialize SFML window
-    sf::RenderWindow window(sf::VideoMode(2000, 2000), "SFML Matrix Display");
+    sf::RenderWindow window(sf::VideoMode(512, 512), "SFML Matrix Display");
 
     Grid grid {};
-    grid.load(sf::Vector2f{1.0, 1.0}, 2000, 2000);
+    grid.load(sf::Vector2f{0.5, 0.5}, 1024, 1024);
     // Main loop
     while (window.isOpen()) 
     {
@@ -69,17 +82,17 @@ int main()
                 window.close();
             }
         }
-
         // Clear the window
         window.clear();
-        
-        grid.setValues(state.getState());
-        state.evolve(0.00000001);
 
+        grid.setValues(state.getState());
         window.draw(grid);
 
         // Display the window
         window.display();
+
+        state.evolve(0.1);
+
     }
 
     return 0;

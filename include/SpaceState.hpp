@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Eigen/Core>
 #include <opencv2/core.hpp>
 
 class SpaceState
@@ -11,6 +12,9 @@ class SpaceState
         void evolve(float deltaTime);
     
     private:
+        Eigen::MatrixXcf convertToEigenComplex(const cv::Mat& opencvMatrix);
+        cv::Mat convertToOpenCV2Channel(const Eigen::MatrixXcf& eigenComplex);
         cv::Mat m_state;
         cv::Mat m_transformedKernel;
+        float m_norm;
 };

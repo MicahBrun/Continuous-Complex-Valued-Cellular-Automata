@@ -9,5 +9,9 @@ namespace Transforms
     cv::Mat applyStep(cv::Mat& space, cv::Mat& transformedKernel);
 
     cv::Mat clipMagnitude(cv::Mat complexMat);
+
+    cv::Mat iMul(cv::Mat& mat);
+
+    float getNorm(const cv::Mat&);
 }
 
