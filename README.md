@@ -1,5 +1,5 @@
 # Continuous Complex-Valued Cellular Automata
-Inspired by Lenia and quantum mechanics, this cellular automata evolves according to the Schrödinger equation, with a convolutional Hamiltonian. 
+Inspired by Lenia and quantum mechanics, this cellular automaton evolves according to the Schrödinger equation, with a convolutional Hamiltonian. 
 
 The kernel and initial state are defined within the relevant funtions inside main.cpp. 
 
