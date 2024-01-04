@@ -4,6 +4,10 @@ Inspired by Lenia and quantum mechanics, this cellular automata evolves accordin
 The kernel and initial state is defined within the relevant funtions inside main.cpp. 
 
 
+https://github.com/MicahBrun/ContinuousComplexValuedCellularAutomata/assets/55516590/c8526b67-51bc-4f8e-9663-20c422b3e83e
+
+
+
 ## Theory
 The system transforms as:
 $$i \frac{\partial \psi}{\partial t} = h * \psi$$
