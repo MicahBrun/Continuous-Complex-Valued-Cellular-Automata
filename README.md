@@ -6,7 +6,8 @@ The kernel and initial state are defined within the relevant funtions inside mai
 
 https://github.com/MicahBrun/ContinuousComplexValuedCellularAutomata/assets/55516590/c8526b67-51bc-4f8e-9663-20c422b3e83e
 
-
+## Visualisation
+SFML is used to visualise the system at a certain time. The system is a 2-D grid where each point stores a complex value. To display this, each point is assigned a colour. The hue of the colour corresponds to the phase of the complex number, the brighten is proportional to the arctangent of the complex number. 
 
 ## Theory
 The system transforms as:
